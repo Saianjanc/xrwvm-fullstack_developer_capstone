@@ -30,11 +30,7 @@ urlpatterns = [
         views.get_dealer_reviews,
         name='dealer_reviews'
     ),
-
-    # path for add a review view
     path('add_review', views.add_review, name='add_review'),
-
-    # path for getting cars
     path('get_cars', views.get_cars, name='getcars'),
 
 ] + static(
