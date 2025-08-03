@@ -38,6 +38,6 @@ urlpatterns = [
     path('get_cars', views.get_cars, name='getcars'),
 
 ] + static(
-    settings.MEDIA_URL,
+    settings.MEDIA_URL, 
     document_root=settings.MEDIA_ROOT
 )
