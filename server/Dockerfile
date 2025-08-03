@@ -1,26 +1,29 @@
-FROM python:3.12.0-slim-bookworm
+    # Use official slim Python image
+    FROM python:3.12.0-slim-bookworm
 
-ENV PYTHONBUFFERED 1
-ENV PYTHONWRITEBYTECODE 1
-ENV APP=/app
+    # Set environment variables
+    ENV PYTHONBUFFERED=1
+    ENV PYTHONWRITEBYTECODE=1
+    ENV APP=/app
 
-WORKDIR $APP
+    # Set working directory
+    WORKDIR $APP
 
-# Install dependencies
-COPY requirements.txt $APP
-RUN pip install --upgrade pip && pip install -r requirements.txt
+    # Install dependencies
+    COPY requirements.txt $APP
+    RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Copy app source
-COPY . $APP
+    # Copy app source code
+    COPY . $APP
 
-# Expose the port your app runs on
-EXPOSE 8000
+    # Expose the app port
+    EXPOSE 8000
 
-# Ensure entrypoint is executable
-RUN chmod +x /app/entrypoint.sh
+    # Ensure the entrypoint script is executable
+    RUN chmod +x /app/entrypoint.sh
 
-# Run migrations and static file collection before app starts
-ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]
+    # Entrypoint to run migrations, collectstatic, etc.
+    ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]
 
-# Gunicorn to serve Django app
-CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "djangoproj]()
+    # Start Django using Gunicorn (adjust 'djangoproj' to match your project name)
+    CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "djangoproj.wsgi:application"]
