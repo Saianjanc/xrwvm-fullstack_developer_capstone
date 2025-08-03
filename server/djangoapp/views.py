@@ -1,9 +1,7 @@
-from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, login, authenticate
 from django.views.decorators.csrf import csrf_exempt
-from datetime import datetime
 import logging
 import json
 
@@ -102,8 +100,12 @@ def add_review(request):
         try:
             post_review(data)
             return JsonResponse({"status": 200})
-        except Exception as e:
-            return JsonResponse({"status": 401, "message": "Error in posting review"})
+        except Exception:
+            return JsonResponse({
+                "status": 401,
+                "message": "Error in posting review"
+            })
+
     else:
         return JsonResponse({"status": 403, "message": "Unauthorized"})
 
@@ -114,5 +116,12 @@ def get_cars(request):
     if count == 0:
         initiate()
     car_models = CarModel.objects.select_related('car_make')
-    cars = [{"CarModel": cm.name, "CarMake": cm.car_make.name} for cm in car_models]
+    cars = [
+        {
+            "CarModel": cm.name,
+            "CarMake": cm.car_make.name
+        }
+        for cm in car_models
+    ]
+
     return JsonResponse({"CarModels": cars})
