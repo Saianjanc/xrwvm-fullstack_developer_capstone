@@ -32,7 +32,7 @@ urlpatterns = [
     ),
     path('add_review', views.add_review, name='add_review'),
     path('get_cars', views.get_cars, name='getcars'),
-
 ] + static(
     settings.MEDIA_URL,
-    document_root=settings.MEDIA_ROOT)
+    document_root=settings.MEDIA_ROOT
+    )
